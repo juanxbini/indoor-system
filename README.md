@@ -20,11 +20,11 @@ indoor-system/
 ## 📚 Documentación General
 
 - 🗷️ [Arquitectura del sistema](docs/system-architecture.md)
-- ⚙️ [Entorno de trabajo y extensiones](README.md)
+- ⚙️ [Entorno de trabajo y extensiones](/docs/enviroment/README.md)
 - 🛠️ [Inicio y configuración del entorno](docs/init/README.md)
 - 🔀 [Flujo de trabajo Git](docs/git-workflow.md)
-- 🍓 [Guía para instalar Raspberry Pi OS](docs/Install-RaspberryPi-OS.md)
-- 🧹 [Drivers para Arduino/ESP32](docs/Drivers.md)
+- 🍓 [Guía para instalar Raspberry Pi OS](docs/enviroment/Install-RaspberryPi-OS.md)
+- 🧹 [Drivers para Arduino/ESP32](docs/enviroment/Drivers.md)
 
 ### 🔙 Backend API (Node.js + Express + MongoDB)
 - 📁 [api-indoors/](./api-indoors)
