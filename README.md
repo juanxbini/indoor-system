@@ -17,12 +17,14 @@ indoor-system/
 ```
 
 ---
+## 📚 Documentación General
 
-## 🔗 Índice de Módulos
-- 📄 [Guía de estructura y dependencias](docs/init/README.md#4-backend-api-nodejs--express--mongodb)
-- 📄 [Instalación y estructura sugerida](docs/init/README.md#6-frontend-react--redux)
-- 📄 [Instalación de Raspberry Pi OS](docs/Install-RaspberryPi-OS.md)
-- 📄 [Drivers USB Arduino/ESP32](docs/Drivers.md)
+- 🗷️ [Arquitectura del sistema](docs/system-architecture.md)
+- ⚙️ [Entorno de trabajo y extensiones](README.md)
+- 🛠️ [Inicio y configuración del entorno](docs/init/README.md)
+- 🔀 [Flujo de trabajo Git](docs/git-workflow.md)
+- 🍓 [Guía para instalar Raspberry Pi OS](docs/Install-RaspberryPi-OS.md)
+- 🧹 [Drivers para Arduino/ESP32](docs/Drivers.md)
 
 ### 🔙 Backend API (Node.js + Express + MongoDB)
 - 📁 [api-indoors/](./api-indoors)
@@ -35,14 +37,6 @@ indoor-system/
 
 ---
 
-## 📚 Documentación General
-
-- 🗷️ [Arquitectura del sistema](docs/system-architecture.md)
-- 🛠️ [Inicio y configuración del entorno](docs/init/README.md)
-- ⚙️ [Entorno de trabajo y extensiones](README.md)
-- 🔀 [Flujo de trabajo Git](docs/git-workflow.md)
-- 🍓 [Guía para instalar Raspberry Pi OS](docs/Install-RaspberryPi-OS.md)
-- 🧹 [Drivers para Arduino/ESP32](docs/Drivers.md)
 
 ---
 
