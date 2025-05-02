@@ -28,7 +28,7 @@ Para el desarrollo del sistema de medición indoor estamos adoptando una **arqui
 
 ### 🔧 Flujo general del sistema
 
-```mermaid
+```
 flowchart TD
     A[Arduino] -->|Serial USB| B[Python (Raspberry Pi)]
     B -->|HTTP POST JSON| C[API REST (Node.js + Express)]
