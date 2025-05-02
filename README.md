@@ -19,19 +19,19 @@ indoor-system/
 ---
 
 ## 🔗 Índice de Módulos
-
-### 🔙 Backend API (Node.js + Express + MongoDB)
-- 📁 [api-indoors/](./api-indoors)
 - 📄 [Guía de estructura y dependencias](docs/init/README.md#4-backend-api-nodejs--express--mongodb)
-
-### 🧠 Nodo Edge (Python + Raspberry Pi)
-- 📁 [edge-node/](./edge-node)
+- 📄 [Instalación y estructura sugerida](docs/init/README.md#6-frontend-react--redux)
 - 📄 [Instalación de Raspberry Pi OS](docs/Install-RaspberryPi-OS.md)
 - 📄 [Drivers USB Arduino/ESP32](docs/Drivers.md)
 
+### 🔙 Backend API (Node.js + Express + MongoDB)
+- 📁 [api-indoors/](./api-indoors)
+  
+### 🧠 Nodo Edge (Python + Raspberry Pi)
+- 📁 [edge-node/](./edge-node)
+
 ### 💻 Frontend Web (React + Redux)
 - 📁 [frontend-indoors/](./frontend-indoors)
-- 📄 [Instalación y estructura sugerida](docs/init/README.md#6-frontend-react--redux)
 
 ---
 
