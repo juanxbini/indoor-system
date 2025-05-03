@@ -75,7 +75,7 @@ edge-node/
 
 ## ⚠️ Limitaciones del Nodo Edge (Raspberry Pi 4)
 
-Ver documento: [`Limitaciones.md`](../docs/enviroment/Limitaciones.md)
+Ver documento: [`Limitaciones.md`](./docs/enviroment/Limitaciones.md)
 
 | Recurso        | Recomendación clave                             |
 | -------------- | ----------------------------------------------- |
