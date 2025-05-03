@@ -67,7 +67,7 @@ indoor-system/
 
 * 🧱 [Arquitectura del sistema](docs/system-architecture.md)
 * 🛠️ [Inicio y configuración del entorno](docs/init/README.md)
-* 🤩 [Entorno de trabajo y extensiones VSCode](README.md)
+* 🤩 [Entorno de trabajo y extensiones VSCode](/docs/enviroment/README.md)
 * 🔀 [Flujo de trabajo Git](docs/git-workflow.md)
 
 ---
