@@ -52,9 +52,9 @@ indoor-system/
 ### 3.2. 🧠 Nodo Edge (Python + Raspberry Pi)
 
 * 📁 [Código fuente](./edge-node)
-* 📄 [Instalación del OS](docs/Install-RaspberryPi-OS.md)
-* 📄 [Drivers USB Arduino/ESP32](docs/Drivers.md)
-* 📄 [Limitaciones técnicas Raspberry Pi](docs/Limitaciones.md)
+* 📄 [Instalación del OS](docs/enviroment/Install-RaspberryPi-OS.md)
+* 📄 [Drivers USB Arduino/ESP32](docs/enviroment/Drivers.md)
+* 📄 [Limitaciones técnicas Raspberry Pi](docs/enviroment/Limitaciones.md)
 
 ### 3.3. 💻 Frontend Web (React + Redux)
 
