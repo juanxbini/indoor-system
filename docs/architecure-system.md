@@ -76,7 +76,6 @@ indoor-system/
 | **Python Edge Node**         | Subscriber | Filtra/transforma lecturas y las reenvía al API REST          |
 | **API REST (Node.js)**       | Subscriber | Guarda histórico, expone endpoints REST y WebSocket para FE   |
 | **Frontend (React + Redux)** | Subscriber | Consume histórico por REST y datos en tiempo real por WS/MQTT |
-=======
 Ver documento: [`Limitaciones.md`](./docs/enviroment/Limitaciones.md)
 
 | Recurso        | Recomendación clave                             |
