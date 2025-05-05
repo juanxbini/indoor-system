@@ -1,118 +1,171 @@
-# 🧠 Arquitectura Edge Computing en el Sistema Indoor
+# Arquitectura del Sistema Indoor (REST + MQTT)
 
-## 📌 ¿Qué es Edge Computing?
-
-**Edge Computing** es un enfoque arquitectónico donde el procesamiento de datos ocurre **lo más cerca posible del origen** (por ejemplo, sensores o dispositivos físicos), en lugar de enviar toda la información a un servidor central o la nube. En nuestro sistema, ese “borde” es una Raspberry Pi ejecutando Python, entre el Arduino y el backend.
+Este documento reemplaza y actualiza la arquitectura anterior Cliente-Servidor con lógica Edge Computing, incorporando un único **broker MQTT centralizado** y mostrando la **estructura de carpetas actualizada** de todo el proyecto.
 
 ---
 
-## 🧩 ¿Por qué elegimos Edge Computing?
+## 📌 Visión General
 
-Ventajas clave para nuestro proyecto:
-
-| Beneficio                     | Ejemplo concreto en el sistema                                          |
-| ----------------------------- | ----------------------------------------------------------------------- |
-| ✅ Reducción de latencia       | El nodo Edge puede decidir cuándo y qué datos enviar al backend         |
-| ✅ Tolerancia a errores de red | Si no hay conexión, los datos pueden almacenarse o actuar localmente    |
-| ✅ Escalabilidad modular       | Se pueden añadir más nodos Edge sin afectar la API principal            |
-| ✅ Procesamiento previo        | Los datos crudos del Arduino se pueden filtrar o transformar localmente |
-| ✅ Desacoplamiento             | Cada capa cumple una función clara e independiente                      |
-
----
-
-## 🏗️ Componentes de la arquitectura Edge-Node
-
-```
-indoor-system/
-├— Arduino                 → Captura de sensores físicos (analógico/digital)
-├— edge-node/ (Python)    → Nodo Edge en Raspberry Pi: procesamiento + reenvío HTTP
-├— api-indoors/ (Node.js) → Backend: validación, lógica, almacenamiento en MongoDB
-└— frontend-indoors/      → Dashboard web para visualización e interacción
-```
-
----
-
-## ➞ Flujo de Datos en la Arquitectura Edge
+Se adopta un único **broker MQTT** (Mosquitto) en la Raspberry Pi, manteniendo la **API REST** de Node.js para histórico, configuración y análisis, y el **Frontend React** para visualización:
 
 ```mermaid
 flowchart TD
-    A[Arduino] -->|Serial USB| B[Raspberry Pi (Nodo Edge)]
-    B -->|POST /data| C[API REST (Node.js)]
-    C --> D[MongoDB]
-    C --> E[Frontend Web (React)]
-    E -->|GET /data| C
+    ESP32[ESP32s NodeMCU\n(Publisher MQTT)] -->|Wi-Fi / MQTT| Broker[Broker MQTT\n(Mosquitto en Pi)]
+    Broker -->|MQTT Subscribe| Edge[Python Edge Node\n(Subscriber)]
+    Broker -->|MQTT Subscribe| API[Node.js API REST\n(Subscriber)]
+    Broker -->|MQTT Subscribe opcional| FE[Frontend React\n(Subscriber)]
+    Edge -->|HTTP POST JSON| API
+    API -->|Guardar| DB[(MongoDB)]
+    API -->|HTTP GET| FE
+    API -->|WebSocket Push| FE
 ```
 
 ---
 
-## 🧠 Responsabilidades del Nodo Edge
-
-El módulo `edge-node/` en Raspberry Pi es el corazón de esta arquitectura. Sus tareas principales:
-
-| Tarea                          | Implementación sugerida (Python)              |
-| ------------------------------ | --------------------------------------------- |
-| Leer datos por puerto serial   | `pyserial` desde `/dev/ttyUSB0`               |
-| Validar o filtrar información  | Clases en `entities/` + lógica en `services/` |
-| Enviar datos al backend        | `requests.post()` a la API REST en Node.js    |
-| Manejar fallos o desconexiones | Reintentos, almacenamiento local temporal     |
-
----
-
-## 📁 Estructura interna del módulo `edge-node/`
+## 🗂️ Estructura de Carpetas Actualizada
 
 ```plaintext
-edge-node/
-├— main.py                   # Punto de entrada
-├— config/settings.py       # Configuración general y .env
-├— services/
-│   ├— serial_reader.py     # Lectura desde Arduino
-│   └— http_client.py       # Comunicación con la API REST
-├— entities/sensor_data.py  # Modelo de datos
-└— requirements.txt         # Dependencias Python
+indoor-system/
+├── api-indoors/                 # Backend principal (Node.js + Express + MongoDB)
+│   ├── src/
+│   │   ├── config/              # Configuración (.env, claves)
+│   │   ├── services/
+│   │   │   └── mqttSubscriber.js # Suscriptor MQTT
+│   │   ├── controllers/         # Controladores REST
+│   │   ├── routes/              # Definición de rutas
+│   │   ├── usecases/            # Lógica de negocio
+│   │   └── repositories/        # Acceso a datos
+│   ├── .env                     # Variables de entorno
+│   └── package.json
+├── edge-node/                   # Nodo Edge con Python en Raspberry Pi
+│   ├── services/
+│   │   ├── serial_reader.py     # Lectura serie y parseo crudo
+│   │   └── mqtt_publisher.py    # Publicador MQTT
+│   ├── main.py                  # Entrada del módulo Edge
+│   ├── requirements.txt         # Dependencias Python
+│   └── .env                     # Configuración del broker y API
+├── frontend-indoors/            # Interfaz web (React + Redux)
+│   ├── src/
+│   │   ├── app/                 # Store y configuración global
+│   │   ├── features/            # Características (sensors, dashboard)
+│   │   ├── components/          # Componentes UI reutilizables
+│   │   ├── services/            # Axios y MQTT/WebSocket client
+│   │   ├── hooks/               # Custom hooks
+│   │   └── main.jsx             # Punto de entrada React
+│   ├── public/
+│   └── package.json
+├── docs/                        # Documentación técnica
+│   ├── system-architecture.md   # Este archivo actualizado
+│   ├── init/                    # Configuración inicial y setup
+│   └── ...                      # Otras guías (git, Install-RPi, Drivers)
+├── test/                        # Simulaciones y pruebas unitarias
+│   ├── dummy_inputs/
+│   └── log_simulations/
+└── README.md                    # Índice y descripción general
 ```
 
 ---
 
-## ⚠️ Limitaciones del Nodo Edge (Raspberry Pi 4)
+## 🔧 Componentes y Funciones
 
-Ver documento: [`docs/Limitaciones.md`](./Limitaciones.md)
+<<<<<<< HEAD
+| Componente                   | Tipo       | Rol Principal                                                 |
+| ---------------------------- | ---------- | ------------------------------------------------------------- |
+| **ESP32s NodeMCU**           | Publisher  | Mide sensores y publica datos vía MQTT al broker              |
+| **Broker MQTT (Mosquitto)**  | Servidor   | Enruta mensajes entre publishers y subscribers                |
+| **Python Edge Node**         | Subscriber | Filtra/transforma lecturas y las reenvía al API REST          |
+| **API REST (Node.js)**       | Subscriber | Guarda histórico, expone endpoints REST y WebSocket para FE   |
+| **Frontend (React + Redux)** | Subscriber | Consume histórico por REST y datos en tiempo real por WS/MQTT |
+=======
+Ver documento: [`Limitaciones.md`](./docs/enviroment/Limitaciones.md)
 
 | Recurso        | Recomendación clave                             |
 | -------------- | ----------------------------------------------- |
 | RAM (4 GB)     | Evitar dashboards pesados o múltiples procesos  |
 | Almacenamiento | Usar MongoDB Lite y limpiar logs frecuentemente |
 | SD Card        | Minimizar escrituras con `logrotate` y TTL      |
+>>>>>>> origin/develop
 
 ---
 
-## 🔎 Casos de uso comunes para Edge Computing
+## 🔁 Flujo de Datos Detallado
 
-| Caso de uso                 | ¿Cómo lo resolvemos?                               |
-| --------------------------- | -------------------------------------------------- |
-| Conexión intermitente       | Se puede usar buffer local en el nodo Edge         |
-| Lecturas de alta frecuencia | Se filtran los datos antes de enviarlos            |
-| Control local de actuadores | Python puede interactuar directamente con GPIO     |
-| Expansión modular           | Se puede agregar otro nodo Edge sin cambiar la API |
+1. **ESP32s** conecta a la red Wi‑Fi y publica en MQTT:
+
+   ```cpp
+   client.publish("sensor/temperature", "23.50");
+   ```
+2. **Mosquitto** recibe y reenvía a todos los suscriptores.
+3. **Python Edge Node** (suscriptor) filtra, normaliza y hace POST al API:
+
+   ```python
+   client.on_message(...)
+   requests.post('http://localhost:3000/api/sensors', payload)
+   ```
+4. **API REST** guarda en MongoDB y notifica al frontend:
+
+   * REST: `GET /api/sensors/last`
+   * WS: `socket.emit('sensorData', data)`
+5. **Frontend React**:
+
+   * Solicita histórico via REST.
+   * Se suscribe al WebSocket/MQTT para datos en tiempo real.
 
 ---
 
-## 🚀 Escalabilidad futura
+## ⚙️ Configuración Básica
 
-Esta arquitectura permite migrar fácilmente a:
+* **Broker Mosquitto** (Raspberry Pi):
 
-* MQTT para comunicación en tiempo real
-* Balanceo de carga con múltiples Edge Nodes
-* Backends desacoplados por microservicios
-* Dashboards avanzados externos (Grafana, Dash)
+  ```bash
+  sudo apt install mosquitto
+  sudo systemctl enable mosquitto
+  ```
+
+  **.env**:
+
+  ```env
+  MQTT_BROKER=mqtt://localhost:1883
+  ```
+
+* **ESP32 NodeMCU**:
+
+  * Configurar SSID/PSK en `main.cpp`.
+  * IP del broker (Pi) en `PubSubClient.setServer(...)`.
+
+* **Python Edge Node**:
+
+  ```bash
+  pip install paho-mqtt requests
+  ```
+
+  Suscribir, procesar y reenviar al API.
+
+* **API Node.js**:
+
+  ```bash
+  npm install mqtt express mongoose socket.io
+  ```
+
+  Importar `mqttSubscriber.js` en `server.js`.
+
+* **React Frontend**:
+
+  ```bash
+  npm install mqtt socket.io-client axios
+  ```
+
+  Configurar cliente WS o MQTT para datos live.
 
 ---
 
-## ✅ Conclusión
+## 📌 Próximos Pasos
 
-Edge Computing nos permite construir un sistema indoor:
+1. **Test End-to-End**: ESP32 → Mosquitto → Edge Node → API → MongoDB → React.
+2. **Optimización**: Añadir autenticación y TLS en MQTT.
+3. **Monitoreo**: Scripts de alerta (cron, logrotate).
+4. **Escalabilidad**: Contenerizar servicios y mover base de datos a servidor externo.
 
-* Robusto frente a fallos
-* Modular y escalable
-* Ideal para entornos híbridos físico-digitales
+---
 
-> 📌 Esta arquitectura es especialmente adecuada para prototipos evolucionables, y se puede adaptar fácilmente a proyectos más grandes o críticos.
+*Este documento sustituye a la versión anterior y muestra la estructura completa y actualizada del sistema indoor.*

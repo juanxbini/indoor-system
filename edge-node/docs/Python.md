@@ -183,4 +183,4 @@ flowchart TD
 
 ---
 
-> Esta guía es la base para comenzar a trabajar en el nodo Edge del sistema de monitoreo indoor. Recomendado integrar esto en `docs/python-edge-guide.md`.
+> Esta guía es la base para comenzar a trabajar en el nodo Edge del sistema de monitoreo indoor`.
