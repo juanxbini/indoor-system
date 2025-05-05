@@ -8,7 +8,7 @@ Este documento reemplaza y actualiza la arquitectura anterior Cliente-Servidor c
 
 Se adopta un único **broker MQTT** (Mosquitto) en la Raspberry Pi, manteniendo la **API REST** de Node.js para histórico, configuración y análisis, y el **Frontend React** para visualización:
 
-```mermaid
+```
 flowchart TD
     ESP32[ESP32s NodeMCU\n(Publisher MQTT)] -->|Wi-Fi / MQTT| Broker[Broker MQTT\n(Mosquitto en Pi)]
     Broker -->|MQTT Subscribe| Edge[Python Edge Node\n(Subscriber)]
@@ -68,7 +68,7 @@ indoor-system/
 
 ## 🔧 Componentes y Funciones
 
-<<<<<<< HEAD
+
 | Componente                   | Tipo       | Rol Principal                                                 |
 | ---------------------------- | ---------- | ------------------------------------------------------------- |
 | **ESP32s NodeMCU**           | Publisher  | Mide sensores y publica datos vía MQTT al broker              |
@@ -76,7 +76,6 @@ indoor-system/
 | **Python Edge Node**         | Subscriber | Filtra/transforma lecturas y las reenvía al API REST          |
 | **API REST (Node.js)**       | Subscriber | Guarda histórico, expone endpoints REST y WebSocket para FE   |
 | **Frontend (React + Redux)** | Subscriber | Consume histórico por REST y datos en tiempo real por WS/MQTT |
-=======
 Ver documento: [`Limitaciones.md`](./docs/enviroment/Limitaciones.md)
 
 | Recurso        | Recomendación clave                             |
@@ -84,7 +83,7 @@ Ver documento: [`Limitaciones.md`](./docs/enviroment/Limitaciones.md)
 | RAM (4 GB)     | Evitar dashboards pesados o múltiples procesos  |
 | Almacenamiento | Usar MongoDB Lite y limpiar logs frecuentemente |
 | SD Card        | Minimizar escrituras con `logrotate` y TTL      |
->>>>>>> origin/develop
+
 
 ---
 
