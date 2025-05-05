@@ -1,80 +1,56 @@
 # 🌱 Sistema de Medición Indoor
 
-Sistema modular para monitoreo ambiental en interiores, con arquitectura cliente-servidor y lógica Edge Computing.
+Este repositorio contiene un sistema modular de monitoreo ambiental indoor basado en una arquitectura REST + MQTT, con procesamiento en el borde (Edge Computing) y visualización en tiempo real. El sistema permite medir variables desde sensores conectados a un ESP32, procesarlas en una Raspberry Pi con Python, almacenarlas en una base de datos MongoDB mediante una API Node.js y mostrarlas en un dashboard React + Redux.
 
 ---
 
-## 📚 Tabla de Contenidos
+## 📚 Documentación principal
 
-- [🌱 Sistema de Medición Indoor](#-sistema-de-medición-indoor)
-  - [📚 Tabla de Contenidos](#-tabla-de-contenidos)
-  - [1. 📌 Resumen del Proyecto](#1--resumen-del-proyecto)
-  - [2. 📂 Estructura del Repositorio](#2--estructura-del-repositorio)
-  - [3. 📦 Guías por Módulo](#3--guías-por-módulo)
-    - [3.1. 🔙 Backend API (Node.js + Express + MongoDB)](#31--backend-api-nodejs--express--mongodb)
-    - [3.2. 🧠 Nodo Edge (Python + Raspberry Pi)](#32--nodo-edge-python--raspberry-pi)
-    - [3.3. 💻 Frontend Web (React + Redux)](#33--frontend-web-react--redux)
-  - [4. 📚 Documentación General](#4--documentación-general)
-  - [5. 🚧 Estado del Proyecto](#5--estado-del-proyecto)
-  - [6. 🤪 Próximos Pasos](#6--próximos-pasos)
+La documentación detallada se encuentra organizada en la carpeta `/docs` y cubre todas las etapas del proyecto:
 
----
-
-## 1. 📌 Resumen del Proyecto
-
-Este sistema mide variables ambientales desde sensores conectados a un Arduino, los procesa en una Raspberry Pi (Python), los envía a una API REST (Node.js) y visualiza los datos en una app web (React).
-
-> Arquitectura modular, escalable, documentada paso a paso. Ideal para entornos indoor de desarrollo y prototipado.
+* [Visión general y arquitectura REST+MQTT](docs/architecure-system.md)
+* [Instrucciones del proyecto y metodología Git](docs/project-instructions.md)
+* [Limitaciones y optimizaciones para Raspberry Pi](docs/Limitaciones.md)
+* [Guía de instalación de Raspberry Pi OS](docs/Install-RaspberryPi-OS.md)
+* [Configuración inicial del sistema](docs/config-init.md)
+* [Entorno de desarrollo y extensiones recomendadas](docs/enviroment.md)
+* [Drivers necesarios para placas Arduino/ESP32](docs/Drivers.md)
+* [Guía de trabajo con Python en el nodo Edge](docs/Python.md)
+* [Guía completa de integración Git](docs/merge-git.md)
+* [Flujo Git basado en Git Flow](docs/git-workflow.md)
 
 ---
 
-## 2. 📂 Estructura del Repositorio
+## 🗂 Estructura del Proyecto
 
 ```plaintext
 indoor-system/
-├── api-indoors/           → Backend principal (Node.js + MongoDB)
-├── edge-node/             → Nodo Edge (Python en Raspberry Pi)
-├── frontend-indoors/      → Interfaz web (React + Redux)
-├── docs/                  → Documentación técnica
-├── test/                  → Datos simulados y pruebas
-└── README.md              → Este archivo principal
+├── api-indoors/         # Backend (Node.js + Express + MongoDB)
+├── edge-node/           # Nodo Edge (Python sobre Raspberry Pi)
+├── frontend-indoors/    # Dashboard Web (React + Redux)
+├── docs/                # Documentación técnica y guías paso a paso
+├── test/                # Datos simulados y pruebas
+└── README.md            # Este archivo
 ```
 
 ---
 
-## 3. 📦 Guías por Módulo
+## 🧱 Arquitectura del Sistema (resumen)
 
-### 3.1. 🔙 Backend API (Node.js + Express + MongoDB)
-
-* 📁 [Código fuente](./api-indoors)
-* 📄 [Guía de estructura y dependencias](docs/init/README.md#4-backend-api-nodejs--express--mongodb)
-
-### 3.2. 🧠 Nodo Edge (Python + Raspberry Pi)
-
-* 📁 [Código fuente](./edge-node)
-* 📄 [Python](./edge-node/docs/Python.md)
-* 📄 [Arquitectura Edge](./edge-node/docs/architecture-edge.md)
-* 📄 [Instalación del OS](docs/enviroment/Install-RaspberryPi-OS.md)
-* 📄 [Drivers USB Arduino/ESP32](docs/enviroment/Drivers.md)
-* 📄 [Limitaciones técnicas Raspberry Pi](docs/enviroment/Limitaciones.md)
-
-### 3.3. 💻 Frontend Web (React + Redux)
-
-* 📁 [Código fuente](./frontend-indoors)
-* 📄 [Estructura recomendada y configuración](docs/init/README.md#6-frontend-react--redux)
+```mermaid
+flowchart TD
+    ESP32[ESP32 NodeMCU] -->|Wi-Fi / MQTT| Broker[Broker MQTT (Mosquitto en Pi)]
+    Broker -->|MQTT Subscribe| Edge[Python Edge Node]
+    Broker -->|MQTT Subscribe| API[API REST Node.js]
+    Edge -->|HTTP POST JSON| API
+    API -->|Guardar| DB[(MongoDB)]
+    API -->|HTTP GET| FE[Frontend React]
+    API -->|WebSocket Push| FE
+```
 
 ---
 
-## 4. 📚 Documentación General
-
-* 🧱 [Arquitectura del sistema](docs/system-architecture.md)
-* 🛠️ [Inicio y configuración del entorno](docs/init/README.md)
-* 🤩 [Entorno de trabajo y extensiones VSCode](/docs/enviroment/README.md)
-* 🔀 [Flujo de trabajo Git](docs/git-workflow.md)
-
----
-
-## 5. 🚧 Estado del Proyecto
+## 🧪 Estado actual y próximos pasos
 
 | Módulo             | Estado                 |
 | ------------------ | ---------------------- |
@@ -83,15 +59,13 @@ indoor-system/
 | `frontend-indoors` | 🟢 Base creada         |
 | `docs`             | ✅ Documentación activa |
 
----
+### Tareas en curso:
 
-## 6. 🤪 Próximos Pasos
-
-* 🔌 Integrar sensores físicos y pruebas de lectura
-* 🌐 Configurar endpoints y validaciones REST
-* 🖥️ Conectar frontend con el backend
-* 🧪 Simular flujo de extremo a extremo en entorno real
+* Integrar sensores al ESP32 y simular lecturas
+* Probar flujo MQTT completo (ESP32 → Broker → Edge/API)
+* Conectar dashboard React al backend (REST + WebSocket)
+* Test de extremo a extremo (lectura → visualización)
 
 ---
 
-> 🛠️ Proyecto desarrollado sobre Windows con Git Bash + VSCode. Cada módulo fue diseñado bajo principios de modularidad, escalabilidad y buena documentación.
+> Este sistema está desarrollado sobre Windows, utilizando Git Bash en Visual Studio Code. Todos los pasos están documentados en archivos `.md` con estructura modular y comentarios detallados para facilitar el aprendizaje y la futura extensión del sistem
