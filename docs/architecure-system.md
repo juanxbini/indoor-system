@@ -68,7 +68,7 @@ indoor-system/
 
 ## 🔧 Componentes y Funciones
 
-<<<<<<< HEAD
+
 | Componente                   | Tipo       | Rol Principal                                                 |
 | ---------------------------- | ---------- | ------------------------------------------------------------- |
 | **ESP32s NodeMCU**           | Publisher  | Mide sensores y publica datos vía MQTT al broker              |
@@ -84,7 +84,7 @@ Ver documento: [`Limitaciones.md`](./docs/enviroment/Limitaciones.md)
 | RAM (4 GB)     | Evitar dashboards pesados o múltiples procesos  |
 | Almacenamiento | Usar MongoDB Lite y limpiar logs frecuentemente |
 | SD Card        | Minimizar escrituras con `logrotate` y TTL      |
->>>>>>> origin/develop
+
 
 ---
 
