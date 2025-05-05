@@ -8,7 +8,7 @@ Este documento reemplaza y actualiza la arquitectura anterior Cliente-Servidor c
 
 Se adopta un único **broker MQTT** (Mosquitto) en la Raspberry Pi, manteniendo la **API REST** de Node.js para histórico, configuración y análisis, y el **Frontend React** para visualización:
 
-```mermaid
+```
 flowchart TD
     ESP32[ESP32s NodeMCU\n(Publisher MQTT)] -->|Wi-Fi / MQTT| Broker[Broker MQTT\n(Mosquitto en Pi)]
     Broker -->|MQTT Subscribe| Edge[Python Edge Node\n(Subscriber)]
