@@ -16,6 +16,7 @@ La documentación detallada se encuentra organizada en la carpeta `/docs` y cubr
 * [Entorno de desarrollo y extensiones recomendadas](docs/enviroment.md)
 * [Drivers necesarios para placas Arduino/ESP32](docs/Drivers.md)
 * [Guía de trabajo con Python en el nodo Edge](docs/Python.md)
+* [Configuración detallada inicial de Raspberry Pi](docs/raspberry-init.md)
 * [Guía completa de integración Git](docs/merge-git.md)
 * [Flujo Git basado en Git Flow](docs/git-workflow.md)
 
@@ -37,7 +38,8 @@ indoor-system/
 
 ## 🧱 Arquitectura del Sistema (resumen)
 
-```flowchart TD
+```mermaid
+flowchart TD
     ESP32[ESP32 NodeMCU] -->|Wi-Fi / MQTT| Broker[Broker MQTT (Mosquitto en Pi)]
     Broker -->|MQTT Subscribe| Edge[Python Edge Node]
     Broker -->|MQTT Subscribe| API[API REST Node.js]
@@ -67,4 +69,4 @@ indoor-system/
 
 ---
 
-> Este sistema está desarrollado sobre Windows, utilizando Git Bash en Visual Studio Code. Todos los pasos están documentados en archivos `.md` con estructura modular y comentarios detallados para facilitar el aprendizaje y la futura extensión del sistem
+> Este sistema está desarrollado sobre Windows, utilizando Git Bash en Visual Studio Code. Todos los pasos están documentados en archivos `.md` con estructura modular y comentarios detallados para facilitar el aprendizaje y la futura extensión del sistema.
