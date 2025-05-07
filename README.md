@@ -37,8 +37,7 @@ indoor-system/
 
 ## 🧱 Arquitectura del Sistema (resumen)
 
-```mermaid
-flowchart TD
+```flowchart TD
     ESP32[ESP32 NodeMCU] -->|Wi-Fi / MQTT| Broker[Broker MQTT (Mosquitto en Pi)]
     Broker -->|MQTT Subscribe| Edge[Python Edge Node]
     Broker -->|MQTT Subscribe| API[API REST Node.js]
