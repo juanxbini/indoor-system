@@ -36,18 +36,31 @@ indoor-system/
 
 ---
 
-## 🧱 Arquitectura del Sistema (resumen)
+## 🔗 Índice de Módulos
 
-```mermaid
-flowchart TD
-    ESP32[ESP32 NodeMCU] -->|Wi-Fi / MQTT| Broker[Broker MQTT (Mosquitto en Pi)]
-    Broker -->|MQTT Subscribe| Edge[Python Edge Node]
-    Broker -->|MQTT Subscribe| API[API REST Node.js]
-    Edge -->|HTTP POST JSON| API
-    API -->|Guardar| DB[(MongoDB)]
-    API -->|HTTP GET| FE[Frontend React]
-    API -->|WebSocket Push| FE
-```
+### 🔙 Backend API (Node.js + Express + MongoDB)
+- 📁 [api-indoors/](./api-indoors)
+- 📄 [Guía de estructura y dependencias](docs/init/README.md#4-backend-api-nodejs--express--mongodb)
+
+### 🧠 Nodo Edge (Python + Raspberry Pi)
+- 📁 [edge-node/](./edge-node)
+- 📄 [Instalación de Raspberry Pi OS](docs/Install-RaspberryPi-OS.md)
+- 📄 [Drivers USB Arduino/ESP32](docs/Drivers.md)
+
+### 💻 Frontend Web (React + Redux)
+- 📁 [frontend-indoors/](./frontend-indoors)
+- 📄 [Instalación y estructura sugerida](docs/init/README.md#6-frontend-react--redux)
+
+---
+
+## 📚 Documentación General
+
+- 🗷️ [Arquitectura del sistema](docs/system-architecture.md)
+- 🛠️ [Inicio y configuración del entorno](docs/init/README.md)
+- ⚙️ [Entorno de trabajo y extensiones](README.md)
+- 🔀 [Flujo de trabajo Git](docs/git-workflow.md)
+- 🍓 [Guía para instalar Raspberry Pi OS](docs/Install-RaspberryPi-OS.md)
+- 🧹 [Drivers para Arduino/ESP32](docs/Drivers.md)
 
 ---
 
